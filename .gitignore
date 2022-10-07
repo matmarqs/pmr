@@ -4,3 +4,6 @@
 **/*minted*
 **/*.pdf
 **/*.swp
+knn/*.csv
+knn/*.txt
+**/.ipynb_checkpoints
