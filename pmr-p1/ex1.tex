@@ -4,9 +4,13 @@
 \title{\Huge{\textbf{Exam 1, IA}}}
 \author{Mateus Marques}
 
+\usepackage[shortlabels]{enumitem}
+
 \begin{document}
 
 \maketitle
+
+TODO: estudar muito os slides \texttt{evalution.pdf}.
 
 \section{Question 1}
 $E =$ classifier $A$ makes an error. $C =$ correct decision.
@@ -55,11 +59,54 @@ The answer is $(-1, 1)$.
 
 \section{Question 3}
 
-$\hat{f}(X) = 2X$, but $Y = X+2$ and $p_X(x) = x/2$.
+$\hat{f}(X) = 2X$, but $Y = X+2$ and $p_X(x) = x/2$. Also $p_Y(y) \dd{y} = p_X(x) \dd{x}$.
 $$
-E(\hat{Y}^2) - E(\hat{Y})^2 = \int_0^2 ^2 p_Y(y) -
+E[(Y - \hat{Y})^2] = \int_{y(0)}^{y(2)} (Y-\hat{Y})^2 \, p_Y(y) \dd{y} =
+\int_{0}^{2} (Y(x)-\hat{Y}(x))^2 \, p_X(x) \dd{x} =
 $$
-<++>
+$$
+= \int_{0}^{2} (x + 2 - 2x)^2 \, x / 2 \dd{x} = \frac{1}{2} \int_0^2 (x^3-4x^2+4x) \dd{x} =
+\frac{1}{2} \, \qty(\frac{16}{4} - 4 \cdot \frac{8}{3} + 8) = 2/3.
+$$
+
+\section{Question 4}
+
+When analyzing only label $1$ or not, we have the following confusion matrix:
+$$
+\begin{pmatrix}
+35 & 5 \\
+14 & 80
+\end{pmatrix}
+$$
+The precision is $\frac{\text{true positive}}{\text{get the label}} = \frac{35}{35 + 5} = 7/8$.
+
+\section{Question 5}
+
+\begin{enumerate}[(a)]
+\item No. We only have a estimative of something $\eps_{\text{1NN}} \leq 2 \eps_{\text{Bayes}}$.
+\item No. There are not a combination of classifiers.
+\item That is correct. Simple.
+\item No. We only have a estimative of something $\eps_{\text{1NN}} \leq 2 \eps_{\text{Bayes}}$.
+\item Obviously false, kNN has nothing to do with a brain.
+\end{enumerate}
+
+\section{Question 6}
+
+I don't know about this one.
+
+\section{Question 7}
+
+$$
+\text{error rate} = \frac{2000}{10000} = 0.2.
+$$
+The $\sigma$ is, where $\eps(i) = 1$ if the classifier missed and $\eps(i) = 0$ if it got right.
+$$
+\sigma^2 = \frac{1}{10000} \sum_{i=1}^{10000} (0.2 - \eps(i))^2 =
+\frac{2000 \cdot 0.8^2 + 8000 \cdot 0.2^2}{10000} = 0.16 \implies \sigma = 0.04.
+$$
+The confidence interval with confidence 0.95 corresponds to $2\sigma$, therefore $[0.2 - 2\sigma, 0.2 + 2\sigma] = [0.192, 0.28]$.
+
+\textbf{THIS IS WRONG}, olhar nos slides.
 
 
 
