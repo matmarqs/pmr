@@ -1,0 +1,66 @@
+\documentclass[a4paper,fleqn,12pt]{article}
+\input{preamble}
+
+\title{\Huge{\textbf{Exam 1, IA}}}
+\author{Mateus Marques}
+
+\begin{document}
+
+\maketitle
+
+\section{Question 1}
+$E =$ classifier $A$ makes an error. $C =$ correct decision.
+$$
+\begin{cases}
+\; P(E) = 1/4 = x \\
+\; P(C | \neg E) = 9/10 = y \\
+\; P(C | E) = 3/10 = z \\
+\end{cases}
+$$
+We want $P(\neg E| C)$:
+$$
+P(\neg E | C) = \frac{P(C | \neg E) P(\neg E)}{P(C)} =
+\frac{P(C|\neg E) (1-P(E))}{P(C|E) P(E) + P(C|\neg E) P(\neg E)} =
+\frac{y (1-x)}{z x + y (1-x)}
+$$
+$$
+= \frac{9/10 \cdot 3/4}{3/10 \cdot 1/4 + 9/10 \cdot 3/4} =
+\frac{9 \cdot 3}{3 + 9 \cdot 3} = 9/10.
+$$
+
+\section{Question 2}
+
+$$
+P(X = x | Y = y) = \frac{5(1-y) + yx}{5 \cdot (y + 10)}.
+$$
+We know $P(Y=1) = 2/3$.
+$$
+P(Y = 1 | X = x) P(X = x) = P(X = x | Y=1) P(Y = 1).
+$$
+$$
+P(Y = -1 | X = x) P(X = x) = P(X = x | Y=-1) P(Y = -1).
+$$
+Therefore:
+$$
+f(x) = \frac{P(Y=1|X=x)}{P(Y=-1|X=x)} = \frac{P(X=x|Y=1)}{P(X=x|Y=-1)} \, \frac{P(Y=1)}{P(Y=-1)} =
+\frac{x/55}{5/50} \cdot 2 = \frac{20}{55} \, x.
+$$
+The Bayes classifier generates $Y = 1$ if $f(x) \geq 1$ and $Y = -1$ if $f(x) < 1$.
+
+We have $f(2) = 40/45$ and $f(8) = 160/55$.
+
+\n
+
+The answer is $(-1, 1)$.
+
+\section{Question 3}
+
+$\hat{f}(X) = 2X$, but $Y = X+2$ and $p_X(x) = x/2$.
+$$
+E(\hat{Y}^2) - E(\hat{Y})^2 = \int_0^2 ^2 p_Y(y) -
+$$
+<++>
+
+
+
+\end{document}
