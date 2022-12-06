@@ -8,6 +8,26 @@
 
 \maketitle
 
-Aqui a gente lateca um resumo do conteúdo...
+\section{Neural Networks}
+
+\subsection{Perceptron}
+
+Perceptron são funções simples assim:
+$$
+Y = f\qty(w_0 + \sum_{i=1}^{n} w_i X_i),
+$$
+onde $f(X) = 1$ se $X \geq 0$, e $-1$ caso contrário.
+
+Só que os perceptrons só conseguem resolver problemas linearmente separáveis (tipo SVM).
+
+\subsection{Multi-Layer Perceptron (MLP)}
+
+Com novas camadas temos mais liberdade:
+$$
+Y =  \beta_0 + \sum_{k=1}^{K} \beta_k \, g\qty(w_{k0} + \sum_{j=1}^{p} w_{kj} X_k).
+$$
+
+Com apenas uma camada oculta, a função de ativação $g(\cdot)$ deve ser não-linear, do contrário teremos uma estrutura linear.
+
 
 \end{document}
