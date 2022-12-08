@@ -10,6 +10,8 @@
 
 \section{Neural Networks}
 
+Para complementar os slides horríveis do professor, ler as páginas 403-424 do livro \textit{Statistical Learning} (veja o \texttt{README.md}).
+
 \subsection{Perceptron}
 
 Perceptron são funções simples assim:
@@ -19,15 +21,65 @@ $$
 onde $f(X) = 1$ se $X \geq 0$, e $-1$ caso contrário.
 
 Só que os perceptrons só conseguem resolver problemas linearmente separáveis (tipo SVM).
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.3\textwidth]{fig/perceptron.png}
+\caption{Perceptron.}
+\label{fig:perceptron}
+\end{figure}
 
 \subsection{Multi-Layer Perceptron (MLP)}
 
 Com novas camadas temos mais liberdade:
 $$
-Y =  \beta_0 + \sum_{k=1}^{K} \beta_k \, g\qty(w_{k0} + \sum_{j=1}^{p} w_{kj} X_k).
+Y =  \beta_0 + \sum_{k=1}^{K} \beta_k \, g\qty(w_{k0} + \sum_{j=1}^{p} w_{kj} X_k),
 $$
+onde $p$ é o número de variáveis na camada de input e $K$ o número de variáveis na camada oculta.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{fig/mlp.png}
+\caption{Multi-Layer Perceptron (MLP).}
+\label{fig:mlp}
+\end{figure}
 
-Com apenas uma camada oculta, a função de ativação $g(\cdot)$ deve ser não-linear, do contrário teremos uma estrutura linear.
+Com apenas uma camada oculta, a função de ativação $g(\cdot)$ deve ser não-linear, do contrário teremos uma estrutura linear. Geralmente escolhemos $g(z)$ assim:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{fig/activation_function.png}
+\caption{Função de ativação.}
+\label{fig:units_activation_functions}
+\end{figure}
+
+Existe o chamado \textbf{Universal Approximation Result (1989)}: um Multi-Layer Perceptron (MLP) com uma única camada oculta consegue aproximar qualquer função contínua arbitrariamente bem.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/example_mlp.png}
+\caption{Exemplo de Multi-Layer Perceptron (MLP).}
+\label{fig:example_mlp}
+\end{figure}
+
+No exemplo acima, os pesos são:
+$$
+\begin{cases}
+\; \beta_0 = 0, \beta_1 = 1, \beta_2 = -1; \\
+\; w_{10} = 0 , w_{11} = 1, w_{12} = 1; \\
+\; w_{20} = -1, w_{21} = 1, w_{22} = 1.
+\end{cases}
+$$
+Isso nos dá que
+$$
+Y = g\qty(X_1 + X_2) - g\qty(X_1 + X_2 - 1),
+$$
+onde $g(z) = 1$ se $z \geq 1/2$ e $g(z) = 0$ caso contrário.
+
+Com muitos outputs, a esquematização é desse jeito:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/many_outputs.png}
+\caption{Esquematização de muitos outputs.}
+\label{fig:many_outputs}
+\end{figure}
+
 
 
 \end{document}
