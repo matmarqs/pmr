@@ -10,8 +10,6 @@
 
 \section{Neural Networks}
 
-Para complementar os slides horríveis do professor, ler as páginas 403-424 do livro \textit{Statistical Learning} (veja o \texttt{README.md}).
-
 \subsection{Perceptron}
 
 Perceptron são funções simples assim:
@@ -290,5 +288,227 @@ $$
 \end{enumerate}
 
 Um esquema popular é utilizar \textit{boosting} com \textit{stumps} (troncos: árvores com um único split). Boosted classifiers com um grande número de stumps funciona muito bem.
+
+O outro algoritmo de boosting é parecido com um gradiente descendente.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/boosting_algo.png}
+\caption{Algoritmo tipo gradiente de boosting.}
+\label{fig:boosting_algo}
+\end{figure}
+
+\section{Aprendizado não-supervisionado}
+
+Como não temos acesso aos rótulos $Y$ para checar nossos resultados, a ideia consiste em fazer uma análise exploratória para entender os dados melhor. Nisso entram técnicas de data visualization, agrupamento e estatística. Representation learning é justamente o processo de tentar representar os dados da melhor forma possível para aprender seus padrões.
+
+\subsection{PCA}
+
+O \textit{Principal Component Analysis} (PCA) é basicamente uma mudança de coordenadas para conseguir explorar as combinações de features que mais importam no dataset.
+
+Assumindo que $X_1, \ldots, X_n$ sejam normalizados e com média zero, definimos cada componente principal $Z_i$ como a combinação linear das features original que tenham as maiores variâncias:
+$$
+Z_j = \phi_{1j} X_1 + \phi_{2j} X_2 + \cdots + \phi_{nj} X_n,
+$$
+onde $\sum_j \phi_{ij}^2 = 1$ e $\sigma_1^2 \geq \sigma_{2}^2 \geq \cdots \geq \sigma_p^2$, sendo cada $\sigma_j^2$ a variância de $Z_j$. Visualmente a ideia é tipo essa aqui
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{fig/pca_variables.png}
+\caption{Ideia de achar as componentes principais no PCA.}
+\label{fig:pca_variables}
+\end{figure}
+
+Os coeficientes $\phi_{ij}$ são chamados de \textit{loadings}. A variância de $Z_1$ é
+$$
+\sigma_1^2 = \sum_{j=1}^{N} \qty( \sum_{i=1}^{n} \phi_{n1} x_{ij} )^2.
+$$
+Para acharmos os loadings, temos que maximizar
+$$
+\max_{\phi_{11}, \ldots, \phi_{n1}} \sum_{j=1}^{N} \qty( \sum_{i=1}^{n} \phi_{n1} x_{ij} )^2,
+$$
+com o vínculo $\sum_{i=1}^{n} \phi_{i1}^2 = 1$. É um problema quadrático que pode ser resolvido com good software. Após achar $Z_1$, achar $Z_2$, $Z_3$ até $Z_n$ para algum $n$ que seja bom.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{fig/example_3d.png}
+\caption{Exemplo em três dimensões ($N = 3$) e duas componentes principais ($n=2$).}
+\label{fig:example_3d}
+\end{figure}
+Se utilizarmos somente as componentes principais, conseguimos explicar a maior parte da variância dos dados. Com esperança, com as componentes principais temos features melhores.
+
+A variância total é
+$$
+\frac{1}{N} \sum_{i=1}^{n} \sum_{j=1}^{N} x_{ij}^2.
+$$
+A variância é explicada pela componente principal $Z_k$ é
+$$
+\frac{1}{N} \sum_{j=1}^{N} z_{jk}^2.
+$$
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\textwidth]{fig/manifold_techniques.png}
+\caption{Outras técnicas de manifolds.}
+\label{fig:manifold_techniques}
+\end{figure}
+
+Quantas componentes principais usar? Pergunta difícil de responder. Mas uma ideia prática é checar a proporção das variâncias e parar quando elas forem baixas o suficiente.
+
+O PCA é uma ferramenta para explorar os dados, mas também pode ser usada para produzir um conjunto mais compacto de features.
+
+O algoritmo para resolver o PCA na prática é traduzido em termos de autovalores e autovetores, e diagonalização de matrizes simétricas.
+
+Consideramos a matriz
+$$
+\vb{X} =
+\begin{pmatrix}
+\vb{x}_1 \\
+\vb{x}_2 \\
+\cdots \\
+\vb{x}_N \\
+\end{pmatrix}
+$$
+e então calculamos
+$$
+\frac{1}{N-1} \vb{X}^T \vb{X}.
+$$
+Cada elemento dessa matriz é a covariância
+$$
+\vb{A} = \frac{1}{N-1} \sum_{i=1}^{N} x_{ij} x_{kj}.
+$$
+As componentes principais então são dadas por
+$$
+\begin{pmatrix}
+Z_1 \\
+\vdots \\
+Z_n \\
+\end{pmatrix} =
+\vb{U}^T
+\begin{pmatrix}
+X_1 \\
+\vdots \\
+X_n \\
+\end{pmatrix},
+$$
+onde $\vb{U}$ é a matriz de autovetores $\vb{A}$. O melhor algoritmo para resolver isso \textit{singular value decomposition} (SVD).
+
+Resumindo:
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{fig/pca_summary.png}
+\caption{Algoritmo para achar as componentes principais $Z_k$ do PCA.}
+\label{fig:pca_summary}
+\end{figure}
+
+\subsection{Clustering}
+
+A ideia é achar subgrupos do dataset, cada subgrupo é chamado de \textit{cluster}. É um pouco subjetivo e tenta realizar uma medida de similaridade. A ideia é minimizar similaridades intra-cluster e maximizar similaridades inter-clusters. Existem dois métodos importantes: K-means e hierarchical clustering.
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{fig/k-means_example.png}
+\caption{Exemplo de clustering com $K-$means.}
+\label{fig:k-means_example}
+\end{figure}
+
+Como dito anteriormente, devemos achar clusters $C_1, \ldots, C_K$ que maximizem
+$$
+\max_{C_1, \ldots, C_K} \sum_{k=1}^{K} s(C_k)
+$$
+para alguma medida $s$ de intra-cluster similarity. Uma medida razoável é
+$$
+s(C_k) = - \frac{1}{\abs{C_k}} \sum_{x',x''\in C_k} \sum_{i=1}^{n} (x_i'-x_i'')^2.
+$$
+
+\subsubsection{K-means}
+
+O $K-$means não é um algoritmo estrito que maximiza a quantidade acima, mas é um método aproximado que dá uma solução razoável para esse problema.
+
+O algoritmo do $K-$means é
+\begin{enumerate}
+\item Input: dataset, medida de distância, número $K$.
+\item Selecionar a atribuição de $K$ clusters iniciais.
+\begin{itemize}
+\item Uma possibilidade: selecionar eles aleatoriamente.
+\item Outra possibilidade: selecionar aleatoriamente $K$ pontos como centroides e atribuir pontos mais próximos aos centroides.
+\end{itemize}
+\item Iterar até um critério de parada for atingido.
+\begin{itemize}
+\item Calcular um centroide para cada cluster.
+\item Agrupar cada ponto ao centroide mais próximo (utilizar a métrica de distância).
+\end{itemize}
+\end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/k-means_it.png}
+\caption{Iterações de $K-$means.}
+\label{fig:k-means_it}
+\end{figure}
+
+Quando parar?
+\begin{itemize}
+\item Depois de um número máximo de iterações.
+\item Quando os centroides pararem de mudar (ou tiverem pouca mudança).
+\item Quando a medida $\sum_{k=1}^{K} s(C_k)$ tiver pouca mudança.
+\end{itemize}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/k-means_strengths.png}
+\caption{Vantagens do $K-$means.}
+\label{fig:k-means_strengths}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/k-means_weaknesses.png}
+\caption{Fraquezas do $K-$means.}
+\label{fig:k-means_weaknesses}
+\end{figure}
+
+
+\subsubsection{Hierarchical clustering}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/hierarchical_algo.png}
+\caption{Algoritmo de hierarchical clustering.}
+\label{fig:hierarchical_algo}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/hierarchical_scheme.png}
+\caption{Esquematização de hierarchical clustering.}
+\label{fig:hierarchical_scheme}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/hierarchical_distances.png}
+\caption{Maneiras de calcular distâncias entre clusters.}
+\label{fig:hierarchical_distances}
+\end{figure}
+
+\section{Decisões sequenciais e Aprendizado por reforço}
+
+\subsection{Markov decision processes (MDPs)}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/mdps.png}
+\caption{Descrição de MDPs.}
+\label{fig:mdps}
+\end{figure}
+
+\subsection{Reinforcement Learning}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\textwidth]{fig/reinforcement.png}
+\caption{Descrição de Reinforcement Learning.}
+\label{fig:reinforcement}
+\end{figure}
+
+
+
 
 \end{document}
