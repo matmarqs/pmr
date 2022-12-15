@@ -6,5 +6,8 @@
 pmr-p1/ex1.pdf
 knn/*.csv
 knn/*.txt
+classifiers/*.csv
+classifiers/*.txt
 **/.ipynb_checkpoints
 knn/hattori*.ipynb
+classifiers/hattori*.ipynb
