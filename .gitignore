@@ -11,3 +11,4 @@ classifiers/*.txt
 **/.ipynb_checkpoints
 knn/hattori*.ipynb
 classifiers/hattori*.ipynb
+classifiers/notebook*.ipynb
