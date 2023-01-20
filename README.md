@@ -1,2 +1,2 @@
-# workspace
-This repository is to share random work between machines.
+# pmr
+Arquivos da disciplina "PMR-3508 Aprendizado de Máquina e Reconhecimento de Padrões" da graduação.
